@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hotel Management Chatbot</title>
+
+<style>
+body {
+  background: linear-gradient(120deg,#1d4350,#a43931);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.chatbox {
+  width: 380px;
+  height: 520px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 12px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 15px 15px 0 0;
+}
+
+.chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.msg {
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user {
+  background: #d1ecf1;
+  align-self: flex-end;
+}
+
+.bot {
+  background: #e2e3e5;
+  align-self: flex-start;
+}
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+}
+
+button {
+  margin-left: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chatbox">
+  <div class="header">🏨 Hotel Management Chatbot</div>
+  <div class="chat" id="chat"></div>
+
+  <div class="input-area">
+    <input id="input" placeholder="Ask anything..." />
+    <button onclick="send()">Send</button>
+  </div>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+
+function add(text, cls) {
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+add("Hello! I am the hotel receptionist. How can I help you?", "bot");
+
+function send() {
+  const text = input.value.toLowerCase();
+  if (!text) return;
+  add(input.value, "user");
+  input.value = "";
+
+  let reply = getReply(text);
+  setTimeout(() => add(reply, "bot"), 400);
+}
+
+function getReply(q) {
+
+  if (q.includes("clean"))
+    return random([
+      "Yes, our hotel is very clean and hygienic.",
+      "Cleanliness is our top priority.",
+      "Our rooms are cleaned daily."
+    ]);
+
+  if (q.includes("safe") || q.includes("security"))
+    return "Yes, our hotel is completely safe with 24/7 security.";
+
+  if (q.includes("room") || q.includes("book"))
+    return "We offer standard and deluxe rooms. Would you like to book one?";
+
+  if (q.includes("price") || q.includes("charge"))
+    return "Room charges start from ₹2000 per night.";
+
+  if (q.includes("location"))
+    return "Our hotel is located near the city center.";
+
+  if (q.includes("food"))
+    return "Yes, we provide delicious food in our restaurant.";
+
+  if (q.includes("check"))
+    return "Check-in time is 12 PM and check-out is 11 AM.";
+
+  if (q.includes("wifi"))
+    return "Yes, free WiFi is available in all rooms.";
+
+  // fallback = smart generic
+  return random([
+    "Sure, our staff will assist you with that.",
+    "Yes, we provide excellent services to our guests.",
+    "Thank you for asking. Our hotel ensures best facilities."
+  ]);
+}
+
+function random(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+</script>
+
+</body>
+</html>
